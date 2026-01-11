@@ -1,8 +1,8 @@
 //
 //  RulesView.swift
-//  focus-lock
+//  
 //
-//  Created by Shabarish Nair on 1/11/26.
+//  Created by Suraj Modur on 1/11/26.
 //
 
 import SwiftUI
