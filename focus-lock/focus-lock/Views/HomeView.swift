@@ -69,18 +69,13 @@ struct HomeView: View {
                 
                 NavigationLink {
                     RulesView()
-                } label : {
+                } label: {
                     Text("Rules")
                         .bold()
-                        .foregroundColor(.black)
-                        .padding()
-                        .background {
-                            RoundedRectangle(cornerRadius: 20, style: .continuous)
-                        }
-                    
-                    
+                        .frame(maxWidth: .infinity)
                 }
-                .frame(maxWidth: .infinity, alignment: .center )
+                .buttonStyle(.primaryFocus)
+                .frame(maxWidth: .infinity, alignment: .center)
                 
                 
             }
