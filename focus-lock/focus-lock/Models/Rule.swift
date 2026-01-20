@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct Rule: Identifiable, Hashable {
-    let id: UUID = UUID()
+struct Rule: Identifiable, Hashable, Codable {
+    var id: UUID = UUID()
     var title: String
     var isEnabled: Bool
     var createdAt: Date = Date()

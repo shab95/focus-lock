@@ -14,9 +14,63 @@ final class AppState: ObservableObject {
     
     // MARK: - Rules (data for the Rules screen)
     @Published var rules: [Rule] = [
-        Rule(title: "No tiktok during work", isEnabled: true),
-        Rule(title: "Limit Instagram to 10min/day", isEnabled: false)
-    ]
+//        Rule(title: "No tiktok during work", isEnabled: true),
+//        Rule(title: "Limit Instagram to 10min/day", isEnabled: false)
+    ] {
+        // Runs right after something changes in rules
+        didSet {
+            saveRules()
+        }
+    }
+    
+    // Sets initial state of rules
+    init () {
+        rules = loadRules()
+    }
+    
+    
+    // Retrieves document folder within phone and stores rules.json within that folder path
+    private func rulesFileURL() -> URL {
+        let documents = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        return documents.appendingPathComponent("rules.json")
+    }
+    
+    
+    // Writes rules into documents
+    private func saveRules(){
+        do {
+            // Turns Rules object in JSON
+            let data = try JSONEncoder().encode(rules)
+            // Writes JSON data into ruleFileURL
+            try data.write(to: rulesFileURL())
+        } catch {
+            print("Failed to save rules:", error)
+        }
+    }
+    
+    
+    // Loads rules from the file path (Only runs at init)
+    private func loadRules() -> [Rule] {
+        
+        let url = rulesFileURL()
+        
+        // Just makes sure rules.json exists
+        guard FileManager.default.fileExists(atPath: url.path) else {
+            return []
+        }
+        
+        
+        // Converts JSON to array of Rule and returns
+        do {
+            let data = try Data(contentsOf: url)
+            return try JSONDecoder().decode([Rule].self, from: data)
+        } catch {
+            print("Failed to load rules:", error)
+            return []
+        }
+    }
+    
+    
     
     // MARK: - Stats (data for the Home screen)
     
